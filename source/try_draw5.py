@@ -25,16 +25,17 @@ plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 # 准备2个图 （ 一行二列 ）
-fig,axs = plt.subplots(1,2)
+fig,axs = plt.subplots(1,3)
 
 # 设定年龄上限和下限
-max_age = 30
+max_age = 60
 min_age = 16
+middle_age = (max_age + min_age) / 2
 
 # 练习一：随机取值（年龄）
 # 生成 x 轴坐标序列
 x = []
-for i in range(min_age, max_age+1):
+for i in range(min_age, max_age + 1):
     x.append(str(i))
 
 # 生成 y 轴坐标序列 = 每个年龄的人数总和
@@ -50,12 +51,22 @@ y = count
 axs[0].bar(x, y)
 axs[0].set_xlabel('年龄')
 axs[0].set_ylabel('人数')
-axs[0].set_title('完全随机')
+axs[0].set_title('均匀分布')
 
-#plt.set_xlabel('年龄')
-#plt.set_ylabel('人数')
+# 练习二： 均匀分布的概率计算
+percent  = [0] * (max_age - min_age + 1)  # 数组初始化，注意个数
+i = 0
+for c in count:
+    percent[i] = c / numbers
+    i += 1
+y = percent
 
-# 练习二： 正态分布
+axs[1].bar(x, y)
+axs[1].set_xlabel('年龄')
+axs[1].set_ylabel('占比')
+axs[1].set_title('均匀分布所占的概率')
+
+# 练习三： 正态分布
 
 # 所有连续分布 loc 和 scale 作为关键字参数来调整分布的位置和规模，
 # 例如，对于标准正态分布，位置是平均值，尺度是标准差。
@@ -65,25 +76,30 @@ axs[0].set_title('完全随机')
 # 当μ = 0,σ = 1时的正态分布是标准正态分布。
 
 #loc = 38
-loc = (max_age + min_age) / 2
-scale = (max_age - min_age) / 4 - 1
+mu = middle_age
+sigma = (max_age - min_age) / 4 - 1
 #平均值, 方差, 偏度, 峰度
-mean,var,skew,kurt = norm.stats(loc,scale,moments='mvsk')
+mean,var,skew,kurt = norm.stats(mu, sigma, moments='mvsk')
 #print(mean,var,skew,kurt)
 #ppf:累积分布函数的反函数。q=0.01时，ppf就是p(X<x)=0.01时的x值。
-start = norm.ppf(0.01,loc,scale)
-ending = norm.ppf(0.99,loc,scale)
-numbers = 1000
+start = norm.ppf(0.01, mu, sigma)
+ending = norm.ppf(0.99, mu,sigma)
+
 x = np.linspace(start, ending, numbers)
-y = norm.pdf(x, loc, scale)
+y = norm.pdf(x, mu, sigma)
 
-axs[1].plot(x, y, 'ro', label = '正态分布')
-axs[1].set_xlabel('年龄')
-axs[1].set_ylabel('概率')
-axs[1].set_title(u'正太分布概率密度函数 norm')
+axs[2].plot(x, y, 'ro', label = '正态分布')
+axs[2].set_xlabel('年龄')
+axs[2].set_ylabel('概率')
+axs[2].set_title(u'正太分布概率密度函数 norm')
 
-# 练习三： 叠加一， 二
-# fig = plt.figure(3)
-
+# 练习四： 生成正态分布的随机数
+fig = plt.figure(2)
+mu = middle_age
+sigma = (max_age - min_age) / 4 - 1
+#np.random.seed(0)
+x = np.random.normal(middle_age, sigma, numbers )
+# print(x)
+plt.hist(x, range=(min_age, max_age), normed=True)
 
 plt.show()
