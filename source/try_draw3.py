@@ -4,7 +4,7 @@
 # author by : （学员ID)
 
 # 目的： 进一步了解制作数列的 np.arange
-#
+#       学会使用 subplot 制作多图
 
 import os
 import sys
@@ -22,7 +22,7 @@ plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 
 
-# 练习一： 在一张图上 分上下两个图显示
+# 练习一： 在一张图上 分上下两个图显示  fig-1
 x = np.arange(0.0, 1.0, 0.01)
 y1 = np.sin(2*np.pi*x)
 y2 = np.cos(2*np.pi*x)
@@ -41,14 +41,14 @@ plt.xlabel(' X 轴 - cos()')
 plt.ylabel(' Y 轴 ')
 plt.grid(True)
 
-# 练习二： 同时画2张图
+# 练习二： 同时画2张图 fig-2
 plt.figure(2)
 plt.plot(x, y1, 'b^')
 
 plt.figure(3)
 plt.plot(x, y2, 'b^')
 
-#练习三： 用  subplot 画1张图
+#练习三： 用  subplot 画1张图 fig-3,4,5,6
 x = np.linspace(0, 2*np.pi, 400)
 y = np.sin(x**2)
 
